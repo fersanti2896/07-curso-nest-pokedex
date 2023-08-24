@@ -1,7 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { PokedexService } from './pokedex.service';
-import { CreatePokedexDto } from './dto/create-pokedex.dto';
-import { UpdatePokedexDto } from './dto/update-pokedex.dto';
+import { CreatePokedexDto, UpdatePokedexDto } from './dto';
 
 @Controller('pokedex')
 export class PokedexController {

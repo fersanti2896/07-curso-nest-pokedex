@@ -1,13 +1,31 @@
-import { Injectable } from '@nestjs/common';
-import { CreatePokedexDto } from './dto/create-pokedex.dto';
-import { UpdatePokedexDto } from './dto/update-pokedex.dto';
+import { Injectable, BadRequestException, InternalServerErrorException } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+
+import { CreatePokedexDto, UpdatePokedexDto } from './dto';
+import { Pokedex } from './entities/pokedex.entity';
 
 @Injectable()
 export class PokedexService {
-  create( createPokedexDto: CreatePokedexDto ) {
+  constructor(
+    @InjectModel( Pokedex.name )
+    private readonly pokedexModel: Model<Pokedex>
+  ) {}
+
+  async create( createPokedexDto: CreatePokedexDto ) {
     createPokedexDto.name = createPokedexDto.name.toLocaleLowerCase();
 
-    return createPokedexDto;
+    try {
+      const pokedex = await this.pokedexModel.create( createPokedexDto );
+  
+      return pokedex;
+    } catch (error) {
+      if( error.code === 11000 ) {
+        throw new BadRequestException(`El pokemon ya existe en la BD: ${ JSON.stringify( error.keyValue ) }`)
+      }
+
+      throw new InternalServerErrorException(`No se pudo crear el pokemon - Verique Logs del Server`)
+    }
   }
 
   findAll() {
