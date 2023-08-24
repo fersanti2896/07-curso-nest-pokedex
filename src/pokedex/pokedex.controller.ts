@@ -19,18 +19,18 @@ export class PokedexController {
     return this.pokedexService.findAll();
   }
 
-  @Get(':id')
-  findOne( @Param('id') id: string ) {
-    return this.pokedexService.findOne(+id);
+  @Get(':term')
+  findOne( @Param('term') term: string ) {
+    return this.pokedexService.findOne( term );
   }
 
   @Patch(':id')
   update( @Param('id') id: string, @Body() updatePokedexDto: UpdatePokedexDto ) {
-    return this.pokedexService.update(+id, updatePokedexDto);
+    return this.pokedexService.update( +id, updatePokedexDto );
   }
 
   @Delete(':id')
   remove( @Param('id') id: string ) {
-    return this.pokedexService.remove(+id);
+    return this.pokedexService.remove( +id );
   }
 }
