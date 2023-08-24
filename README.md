@@ -9,3 +9,24 @@ Esta sección se enfoca en la grabación a base de datos. Los temas que se ven s
 - `Schemas`.
 - Modelos.
 - `DTOs` y sus extensiones.
+
+
+### Configuraciones para levantar nuestro proyecto
+
+1. Clonar el repositorio. 
+2. Ejecutar el comando: 
+```
+npm install
+```
+3. Tener `Nest CLI` instalando: 
+```
+npm i -g @nestjs/cli
+```
+4. Levantar la base de datos: 
+```
+docker-compose up -d
+```
+
+### Tecnologías usadas:
+* MongoDB
+* Nest
