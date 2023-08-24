@@ -5,11 +5,13 @@ import { UpdatePokedexDto } from './dto/update-pokedex.dto';
 
 @Controller('pokedex')
 export class PokedexController {
-  constructor(private readonly pokedexService: PokedexService) {}
+  constructor(
+    private readonly pokedexService: PokedexService
+  ) {}
 
   @Post()
-  create(@Body() createPokedexDto: CreatePokedexDto) {
-    return this.pokedexService.create(createPokedexDto);
+  create( @Body() createPokedexDto: CreatePokedexDto ) {
+    return this.pokedexService.create( createPokedexDto );
   }
 
   @Get()
@@ -18,17 +20,17 @@ export class PokedexController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne( @Param('id') id: string ) {
     return this.pokedexService.findOne(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePokedexDto: UpdatePokedexDto) {
+  update( @Param('id') id: string, @Body() updatePokedexDto: UpdatePokedexDto ) {
     return this.pokedexService.update(+id, updatePokedexDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove( @Param('id') id: string ) {
     return this.pokedexService.remove(+id);
   }
 }
