@@ -24,9 +24,9 @@ export class PokedexController {
     return this.pokedexService.findOne( term );
   }
 
-  @Patch(':id')
-  update( @Param('id') id: string, @Body() updatePokedexDto: UpdatePokedexDto ) {
-    return this.pokedexService.update( +id, updatePokedexDto );
+  @Patch(':term')
+  update( @Param('term') term: string, @Body() updatePokedexDto: UpdatePokedexDto ) {
+    return this.pokedexService.update( term, updatePokedexDto );
   }
 
   @Delete(':id')

@@ -20,11 +20,10 @@ export class PokedexService {
   
       return pokedex;
     } catch (error) {
-      if( error.code === 11000 ) {
-        throw new BadRequestException(`El pokemon ya existe en la BD: ${ JSON.stringify( error.keyValue ) }`)
-      }
+      const msgError = 'El pokemon ya existe en la BD:';
+      const msgErrorGen = 'No se pudo crear el pokemon';
 
-      throw new InternalServerErrorException(`No se pudo crear el pokemon - Verique Logs del Server`)
+      this.handleExceptions(error, msgError, msgErrorGen);
     }
   }
 
@@ -55,11 +54,35 @@ export class PokedexService {
     return pokemon;
   }
 
-  update( id: number, updatePokedexDto: UpdatePokedexDto ) {
-    return `This action updates a #${id} pokedex`;
+  async update( term: string, updatePokedexDto: UpdatePokedexDto ) {
+    const pokemon = await this.findOne( term );
+
+    if( updatePokedexDto.name ) {
+      updatePokedexDto.name = updatePokedexDto.name.toLocaleLowerCase();
+    }
+
+    try {
+      await pokemon.updateOne( updatePokedexDto, { new: true } );
+  
+      return { ...pokemon.toJSON(), ...updatePokedexDto };
+    } catch (error) {
+      const msgError = 'Ya existe la propiedad de un pokemon en la BD:';
+      const msgErrorGen = 'No se pudo actualizar el pokemon';
+
+      this.handleExceptions(error, msgError, msgErrorGen);
+    }
   }
 
   remove( id: number ) {
     return `This action removes a #${id} pokedex`;
+  }
+
+  /* Metodo para manejar errores */
+  private handleExceptions( error: any, msgError: string, msgErrorGen: string ) {
+    if( error.code === 11000 ) {
+      throw new BadRequestException(`${ msgError } ${ JSON.stringify( error.keyValue ) }`);
+    }
+
+    throw new InternalServerErrorException(`${ msgErrorGen } - Verique Logs del Server`);
   }
 }
