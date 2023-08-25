@@ -31,6 +31,6 @@ export class PokedexController {
 
   @Delete(':id')
   remove( @Param('id') id: string ) {
-    return this.pokedexService.remove( +id );
+    return this.pokedexService.remove( id );
   }
 }
